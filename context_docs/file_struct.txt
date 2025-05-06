@@ -1,0 +1,18 @@
+/src
+  /components
+    NavBar.jsx
+    EpisodeCard.jsx
+    AudioControls.jsx
+  /hooks
+    useAudioPlayer.js
+    useCardPosition.js
+  /pages
+    Home.jsx
+    Episodes.jsx
+    About.jsx
+    Contact.jsx
+  /assets
+    /images
+    /audio
+  App.jsx
+  index.js
