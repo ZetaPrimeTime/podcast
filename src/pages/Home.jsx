@@ -3,12 +3,14 @@ import { Container, Typography, Box, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
+import BitcoinClock from '../components/BitcoinClock';
 
 const Home = () => {
   const navigate = useNavigate();
 
   return (
     <Container maxWidth="lg">
+      <BitcoinClock />
       <Box
         sx={{
           minHeight: '80vh',

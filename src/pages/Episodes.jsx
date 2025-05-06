@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Container, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Container, Typography, Box, CircularProgress } from '@mui/material';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { motion } from 'framer-motion';
 import EpisodeCard from '../components/EpisodeCard';
@@ -23,15 +23,29 @@ const initialEpisodes = [
 const Episodes = () => {
   const { episodes: contextEpisodes } = useEpisodes();
   const { episodes, handleDragEnd, loadSavedOrder, setEpisodes } = useCardPosition(contextEpisodes);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Update episodes when context episodes change
   useEffect(() => {
     setEpisodes(contextEpisodes);
+    setIsLoading(false);
   }, [contextEpisodes, setEpisodes]);
 
   useEffect(() => {
-    loadSavedOrder();
+    const loadEpisodes = async () => {
+      await loadSavedOrder();
+      setIsLoading(false);
+    };
+    loadEpisodes();
   }, [loadSavedOrder]);
+
+  if (isLoading) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 4, textAlign: 'center' }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -46,23 +60,45 @@ const Episodes = () => {
       </motion.div>
 
       <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="episodes">
-          {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {episodes.map((episode, index) => (
-                <EpisodeCard
-                  key={episode.id}
-                  episode={episode}
-                  index={index}
-                />
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+        <Box sx={{ minHeight: '100px' }}>
+          <Droppable droppableId="episodes">
+            {(provided) => (
+              <Box
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                sx={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: 2,
+                  minHeight: episodes && episodes.length > 0 ? 'auto' : '200px'
+                }}
+              >
+                {episodes && episodes.length > 0 ? (
+                  episodes.map((episode, index) => (
+                    <EpisodeCard
+                      key={episode.id}
+                      episode={episode}
+                      index={index}
+                    />
+                  ))
+                ) : (
+                  <Box sx={{ 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                    height: '100%',
+                    width: '100%'
+                  }}>
+                    <Typography variant="body1" color="text.secondary">
+                      No episodes available. Upload your first episode to get started!
+                    </Typography>
+                  </Box>
+                )}
+                {provided.placeholder}
+              </Box>
+            )}
+          </Droppable>
+        </Box>
       </DragDropContext>
     </Container>
   );

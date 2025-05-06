@@ -22,6 +22,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CreateIcon from '@mui/icons-material/Create';
 
 const drawerWidth = 240;
 const collapsedWidth = 70;
@@ -67,6 +68,7 @@ const NavBar = () => {
     { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Episodes', icon: <HeadphonesIcon />, path: '/episodes' },
     { text: 'Upload Episode', icon: <CloudUploadIcon />, path: '/upload' },
+    { text: 'Blog', icon: <CreateIcon />, path: '/blog' },
     { text: 'About', icon: <InfoIcon />, path: '/about' },
     { text: 'Contact', icon: <ContactMailIcon />, path: '/contact' },
   ];

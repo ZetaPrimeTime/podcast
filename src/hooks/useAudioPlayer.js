@@ -111,6 +111,12 @@ const useAudioPlayer = (audioUrl, episodeId) => {
     seek(newTime);
   };
 
+  const setAudioVolume = (value) => {
+    if (audioRef.current) {
+      audioRef.current.volume = value;
+    }
+  };
+
   return {
     isPlaying,
     currentTime,
@@ -120,6 +126,7 @@ const useAudioPlayer = (audioUrl, episodeId) => {
     seek,
     forward5,
     rewind5,
+    setAudioVolume,
   };
 };
 

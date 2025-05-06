@@ -13,13 +13,25 @@ const useCardPosition = (initialEpisodes) => {
     setEpisodes(items);
     
     // Save order to localStorage
-    localStorage.setItem('podcast-episode-order', JSON.stringify(items));
+    try {
+      localStorage.setItem('podcast-episode-order', JSON.stringify(items));
+    } catch (error) {
+      console.error('Failed to save episode order:', error);
+    }
   };
 
-  const loadSavedOrder = () => {
-    const savedOrder = localStorage.getItem('podcast-episode-order');
-    if (savedOrder) {
-      setEpisodes(JSON.parse(savedOrder));
+  const loadSavedOrder = async () => {
+    try {
+      const savedOrder = localStorage.getItem('podcast-episode-order');
+      if (savedOrder) {
+        const parsedOrder = JSON.parse(savedOrder);
+        // Only update if we have valid episodes data
+        if (Array.isArray(parsedOrder) && parsedOrder.length > 0) {
+          setEpisodes(parsedOrder);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load saved episode order:', error);
     }
   };
 
